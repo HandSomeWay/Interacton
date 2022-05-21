@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Leap;
+using Leap.Unity;
 
-public class Scene1 : MonoBehaviour
+public class SceneOne : MonoBehaviour
 {
     public GameObject GameObject1;
     public GameObject GameObject2;

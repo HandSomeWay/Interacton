@@ -135,7 +135,6 @@ public class LeapGestures : MonoBehaviour
                 else if (isMoveForward(itemHands))
                 {
                     text2.text = "左手的移动为：向前";
-
                 }
                 else if (isMoveBack(itemHands))
                 {

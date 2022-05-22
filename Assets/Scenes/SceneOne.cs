@@ -11,6 +11,11 @@ public class SceneOne : MonoBehaviour
     public GameObject GameObject2;
     public GameObject GameObject3;
 
+    public GameObject GameObject4;
+    public GameObject GameObject5;
+
+    public GameObject GameObject6;
+
     public GameObject GameObject0;
 
     public GameObject GameObject11;
@@ -22,16 +27,20 @@ public class SceneOne : MonoBehaviour
     public GameObject GameObject17;
     public GameObject GameObject18;
     public GameObject GameObject19;
+    public GameObject GameObject20;
 
 
     //private GameObject gameObject;
     public Text text1;
     private bool flag = true;
+    private bool flag1 = true;
 
     private Animator animator1;
     private Animator animator2;
     private Animator animator3;
     private Animator animator;
+
+    private Animator animator6;
 
     private Animator animator11;
     private Animator animator12;
@@ -42,6 +51,7 @@ public class SceneOne : MonoBehaviour
     private Animator animator17;
     private Animator animator18;
     private Animator animator19;
+    private Animator animator20;
 
     private LeapProvider mProvider;
     private Frame mFrame;
@@ -49,6 +59,10 @@ public class SceneOne : MonoBehaviour
     private int n;
     public int[] x = new int[3]{ 0, 0, 0 };
     public bool[] f = new bool[8]{ false, false, false, false, false, false, false, false };
+    public float dis;
+    public float distance = 0f;
+    private Vector leftPosition;
+    private Vector rightPosition;
 
     //手掌移动的最小速度
     [Tooltip("Velocity (m/s) of Palm ")]
@@ -65,6 +79,7 @@ public class SceneOne : MonoBehaviour
         animator1 = GameObject1.transform.GetComponent<Animator>();
         animator2 = GameObject2.transform.GetComponent<Animator>();
         animator3 = GameObject3.transform.GetComponent<Animator>();
+        animator6 = GameObject6.transform.GetComponent<Animator>();
 
         animator11 = GameObject11.transform.GetComponent<Animator>();
         animator12 = GameObject12.transform.GetComponent<Animator>();
@@ -75,6 +90,7 @@ public class SceneOne : MonoBehaviour
         animator17 = GameObject17.transform.GetComponent<Animator>();
         animator18 = GameObject18.transform.GetComponent<Animator>();
         animator19 = GameObject19.transform.GetComponent<Animator>();
+        //animator20 = GameObject20.transform.GetComponent<Animator>();
 
 
         n = 1;
@@ -118,14 +134,49 @@ public class SceneOne : MonoBehaviour
             GameObject17.SetActive(false);
             GameObject18.SetActive(false);
             text1.gameObject.SetActive(false);
+
+            StartCoroutine(Opendoor());
         }
         
         mFrame = mProvider.CurrentFrame;
         if (mFrame.Hands.Count > 0)
         {
+            if (flag1 && mFrame.Hands.Count == 2)
+            {
+                CalcuateDistance(mFrame);
+            }
             Gestures(mFrame);
         }
     }
+
+    void CalcuateDistance(Frame mFrame)
+    {
+        foreach (var itemHands in mFrame.Hands)
+        {
+            if (itemHands.IsLeft)
+            {
+                leftPosition = itemHands.PalmPosition;
+            }
+            if (itemHands.IsRight)
+            {
+                rightPosition = itemHands.PalmPosition;
+            }
+        }
+
+        if (leftPosition != Vector.Zero && rightPosition != Vector.Zero)
+        {
+            Vector3 leftPos = new Vector3(leftPosition.x, leftPosition.y, leftPosition.z);
+            Vector3 rightPos = new Vector3(rightPosition.x, rightPosition.y, rightPosition.z);
+            distance = 10 * Vector3.Distance(leftPos, rightPos);
+            if (distance < dis)
+            {
+                //animator20.SetTrigger("bagua");
+                GameObject0.SetActive(true);
+                flag1 = false;
+            }
+        }
+    }
+
     void Gestures(Frame mFrame)
     {
         //Gesture_zoom = false;
@@ -133,6 +184,7 @@ public class SceneOne : MonoBehaviour
         {
             if (itemHands.IsLeft)
             {
+                GameObject4.transform.position = new Vector3(itemHands.PalmPosition.x + 0.04f, itemHands.PalmPosition.y, itemHands.PalmPosition.z + 0.1f);
                 if (isMoveRight(itemHands))
                 {
                     x[n - 1] = 1;
@@ -144,7 +196,7 @@ public class SceneOne : MonoBehaviour
             }
             else if (itemHands.IsRight)
             {
-
+                GameObject5.transform.position = new Vector3(itemHands.PalmPosition.x + 0.04f, itemHands.PalmPosition.y, itemHands.PalmPosition.z + 0.1f);
                 if (isMoveLeft(itemHands))
                 {
                     x[n - 1] = -1;
@@ -154,119 +206,124 @@ public class SceneOne : MonoBehaviour
                     animator.SetTrigger("yin1");
                 }
             }
-            if (flag == true)
-            {
-                if (isMoveUp(itemHands))
-                {
-                    if (n > 1)
-                    {
-                        StartCoroutine(Reduce());
-                    }
-                }
-                else if (isMoveDown(itemHands))
-                {
-                    if (n < 3)
-                    {
-                        StartCoroutine(Add());
-                    }
-                }
-            }
 
-            if (isMoveForward(itemHands))
+            if (!flag1)
             {
-                if (x[0] == 1)
+                if (flag == true)
                 {
-                    if (x[1] == 1)
+                    if (isMoveUp(itemHands))
                     {
-                        if (x[2] == 1)
+                        if (n > 1)
                         {
-                            text1.text = "绘制完成这是乾卦";
-                            if(f[0] == false)
-                            {
-                                animator11.SetTrigger("乾");
-                                StartCoroutine(Disappear());
-                                f[0] = true;
-                            }
-                        }
-                        else if (x[2] == -1)
-                        {
-                            text1.text = "绘制完成这是巽卦";
-                            if (f[1] == false)
-                            {
-                                animator12.SetTrigger("巽");
-                                StartCoroutine(Disappear());
-                                f[1] = true;
-                            }
+                            StartCoroutine(Reduce());
                         }
                     }
-                    else if(x[1] == -1)
+                    else if (isMoveDown(itemHands))
                     {
-                        if (x[2] == 1)
+                        if (n < 3)
                         {
-                            text1.text = "绘制完成这是离卦";
-                            if (f[2] == false)
-                            {
-                                animator13.SetTrigger("离");
-                                StartCoroutine(Disappear());
-                                f[2] = true;
-                            }
-                        }
-                        else if (x[2] == -1)
-                        {
-                            text1.text = "绘制完成这是艮卦";
-                            if (f[3] == false)
-                            {
-                                animator14.SetTrigger("艮");
-                                StartCoroutine(Disappear());
-                                f[3] = true;
-                            }
+                            StartCoroutine(Add());
                         }
                     }
                 }
-                else if(x[0] == -1){
-                    if (x[1] == 1)
+
+                if (isMoveForward(itemHands))
+                {
+                    if (x[0] == 1)
                     {
-                        if (x[2] == 1)
+                        if (x[1] == 1)
                         {
-                            text1.text = "绘制完成这是兑卦";
-                            if (f[4] == false)
+                            if (x[2] == 1)
                             {
-                                animator15.SetTrigger("兑");
-                                StartCoroutine(Disappear());
-                                f[4] = true;
+                                text1.text = "绘制完成这是乾卦";
+                                if (f[0] == false)
+                                {
+                                    animator11.SetTrigger("乾");
+                                    StartCoroutine(Disappear());
+                                    f[0] = true;
+                                }
+                            }
+                            else if (x[2] == -1)
+                            {
+                                text1.text = "绘制完成这是巽卦";
+                                if (f[1] == false)
+                                {
+                                    animator12.SetTrigger("巽");
+                                    StartCoroutine(Disappear());
+                                    f[1] = true;
+                                }
                             }
                         }
-                        else if (x[2] == -1)
+                        else if (x[1] == -1)
                         {
-                            text1.text = "绘制完成这是坎卦";
-                            if (f[5] == false)
+                            if (x[2] == 1)
                             {
-                                animator16.SetTrigger("坎");
-                                StartCoroutine(Disappear());
-                                f[5] = true;
+                                text1.text = "绘制完成这是离卦";
+                                if (f[2] == false)
+                                {
+                                    animator13.SetTrigger("离");
+                                    StartCoroutine(Disappear());
+                                    f[2] = true;
+                                }
+                            }
+                            else if (x[2] == -1)
+                            {
+                                text1.text = "绘制完成这是艮卦";
+                                if (f[3] == false)
+                                {
+                                    animator14.SetTrigger("艮");
+                                    StartCoroutine(Disappear());
+                                    f[3] = true;
+                                }
                             }
                         }
                     }
-                    else if (x[1] == -1)
+                    else if (x[0] == -1)
                     {
-                        if (x[2] == 1)
+                        if (x[1] == 1)
                         {
-                            text1.text = "绘制完成这是震卦";
-                            if (f[6] == false)
+                            if (x[2] == 1)
                             {
-                                animator17.SetTrigger("震");
-                                StartCoroutine(Disappear());
-                                f[6] = true;
+                                text1.text = "绘制完成这是兑卦";
+                                if (f[4] == false)
+                                {
+                                    animator15.SetTrigger("兑");
+                                    StartCoroutine(Disappear());
+                                    f[4] = true;
+                                }
+                            }
+                            else if (x[2] == -1)
+                            {
+                                text1.text = "绘制完成这是坎卦";
+                                if (f[5] == false)
+                                {
+                                    animator16.SetTrigger("坎");
+                                    StartCoroutine(Disappear());
+                                    f[5] = true;
+                                }
                             }
                         }
-                        else if (x[2] == -1)
+                        else if (x[1] == -1)
                         {
-                            text1.text = "绘制完成这是坤卦";
-                            if (f[7] == false)
+                            if (x[2] == 1)
                             {
-                                animator18.SetTrigger("坤");
-                                StartCoroutine(Disappear());
-                                f[7] = true;
+                                text1.text = "绘制完成这是震卦";
+                                if (f[6] == false)
+                                {
+                                    animator17.SetTrigger("震");
+                                    StartCoroutine(Disappear());
+                                    f[6] = true;
+                                }
+                            }
+                            else if (x[2] == -1)
+                            {
+                                text1.text = "绘制完成这是坤卦";
+                                if (f[7] == false)
+                                {
+                                    animator18.SetTrigger("坤");
+                                    StartCoroutine(Disappear());
+                                    f[7] = true;
+                                }
                             }
                         }
                     }
@@ -346,4 +403,12 @@ public class SceneOne : MonoBehaviour
         //GameObject2.SetActive(true);
         //GameObject3.SetActive(true);
     }
+
+    IEnumerator Opendoor()
+    {
+        yield return new WaitForSeconds(10f);
+        GameObject19.SetActive(false);
+        animator6.SetTrigger("door");
+    }
+
 }

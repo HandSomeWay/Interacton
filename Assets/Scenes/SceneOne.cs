@@ -90,7 +90,7 @@ public class SceneOne : MonoBehaviour
         animator17 = GameObject17.transform.GetComponent<Animator>();
         animator18 = GameObject18.transform.GetComponent<Animator>();
         animator19 = GameObject19.transform.GetComponent<Animator>();
-        //animator20 = GameObject20.transform.GetComponent<Animator>();
+        animator20 = GameObject20.transform.GetComponent<Animator>();
 
 
         n = 1;
@@ -170,9 +170,7 @@ public class SceneOne : MonoBehaviour
             distance = 10 * Vector3.Distance(leftPos, rightPos);
             if (distance < dis)
             {
-                //animator20.SetTrigger("bagua");
-                GameObject0.SetActive(true);
-                flag1 = false;
+                StartCoroutine(Show());
             }
         }
     }
@@ -185,7 +183,7 @@ public class SceneOne : MonoBehaviour
             if (itemHands.IsLeft)
             {
                 GameObject4.transform.position = new Vector3(itemHands.PalmPosition.x + 0.04f, itemHands.PalmPosition.y, itemHands.PalmPosition.z + 0.1f);
-                if (isMoveRight(itemHands))
+                if (!flag1 && isMoveRight(itemHands))
                 {
                     x[n - 1] = 1;
                     animator.ResetTrigger("yang2");
@@ -197,7 +195,7 @@ public class SceneOne : MonoBehaviour
             else if (itemHands.IsRight)
             {
                 GameObject5.transform.position = new Vector3(itemHands.PalmPosition.x + 0.04f, itemHands.PalmPosition.y, itemHands.PalmPosition.z + 0.1f);
-                if (isMoveLeft(itemHands))
+                if (!flag1 && isMoveLeft(itemHands))
                 {
                     x[n - 1] = -1;
                     animator.ResetTrigger("yin2");
@@ -411,4 +409,12 @@ public class SceneOne : MonoBehaviour
         animator6.SetTrigger("door");
     }
 
+    IEnumerator Show()
+    {
+        animator20.SetTrigger("yinyang");
+        yield return new WaitForSeconds(5f);
+        GameObject0.SetActive(true);
+        GameObject20.SetActive(false);
+        flag1 = false;
+    }
 }

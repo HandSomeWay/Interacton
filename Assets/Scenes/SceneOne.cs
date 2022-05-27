@@ -102,39 +102,21 @@ public class SceneOne : MonoBehaviour
         if (n == 1)
         {
             animator = animator1;
-            GameObject0.transform.position = new Vector3(-2f, 4.5f, -15f);
+            GameObject0.transform.position = new Vector3(-1f, 4.35f, -15f);
         }
         else if(n == 2)
         {
             animator = animator2;
-            GameObject0.transform.position = new Vector3(-2f, 4f, -15f);
+            GameObject0.transform.position = new Vector3(-1f, 3.95f, -15f);
         }
         else if (n == 3)
         {
             animator = animator3;
-            GameObject0.transform.position = new Vector3(-2f, 3.5f, -15f);
+            GameObject0.transform.position = new Vector3(-1f, 3.55f, -15f);
         }
 
         if(f[0] && f[1] && f[2] && f[3] && f[4] && f[5] && f[6] && f[7])
         {
-            text1.text = "绘制完成";
-            animator19.SetTrigger("bagua");
-
-            GameObject0.SetActive(false);
-            GameObject1.SetActive(false);
-            GameObject2.SetActive(false);
-            GameObject3.SetActive(false);
-
-            GameObject11.SetActive(false);
-            GameObject12.SetActive(false);
-            GameObject13.SetActive(false);
-            GameObject14.SetActive(false);
-            GameObject15.SetActive(false);
-            GameObject16.SetActive(false);
-            GameObject17.SetActive(false);
-            GameObject18.SetActive(false);
-            text1.gameObject.SetActive(false);
-
             StartCoroutine(Opendoor());
         }
         
@@ -392,7 +374,7 @@ public class SceneOne : MonoBehaviour
         GameObject1.transform.position = new Vector3(0f, 4.4f, 15f);
         GameObject2.transform.position = new Vector3(0f, 4f, 15f);
         GameObject3.transform.position = new Vector3(0f, 3.6f, 15f);
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         GameObject0.SetActive(true);
         GameObject1.transform.position = new Vector3(0f, 4.4f, -15f);
         GameObject2.transform.position = new Vector3(0f, 4f, -15f);
@@ -404,10 +386,31 @@ public class SceneOne : MonoBehaviour
 
     IEnumerator Opendoor()
     {
-        yield return new WaitForSeconds(10f);
+        text1.text = "绘制完成";
+        yield return new WaitForSeconds(4f);
+
+        animator19.SetTrigger("bagua");
+
+        GameObject0.SetActive(false);
+        GameObject1.SetActive(false);
+        GameObject2.SetActive(false);
+        GameObject3.SetActive(false);
+
+        GameObject11.SetActive(false);
+        GameObject12.SetActive(false);
+        GameObject13.SetActive(false);
+        GameObject14.SetActive(false);
+        GameObject15.SetActive(false);
+        GameObject16.SetActive(false);
+        GameObject17.SetActive(false);
+        GameObject18.SetActive(false);
+        text1.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(11f);
         GameObject19.SetActive(false);
         animator6.SetTrigger("door");
     }
+
 
     IEnumerator Show()
     {

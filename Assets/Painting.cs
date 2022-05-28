@@ -48,6 +48,7 @@ public class Painting : MonoBehaviour
         rawMousePosition = rawanchorPositon + new Vector2(Screen.width / 2.0f, Screen.height / 2.0f) + canvasOffset;
 
         texRender = new RenderTexture(Screen.width, Screen.height, 24, RenderTextureFormat.ARGB32);
+        texRender.name = "PaintCanvas";
         Clear(texRender);
     }
 

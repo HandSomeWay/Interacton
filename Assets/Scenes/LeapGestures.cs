@@ -34,6 +34,8 @@ public class LeapGestures : MonoBehaviour
     public Text text7;
     public Text text8;
 
+    //绘制光标
+    public Button button;
 
     void Start()
     {
@@ -212,6 +214,7 @@ public class LeapGestures : MonoBehaviour
                 if (isGrabHand(itemHands))
                 {
                     text5.text = "右手的手势为：抓取";
+                    button.gameObject.SetActive(true);
                     if (((new Vector3(itemHands.PalmPosition.x, itemHands.PalmPosition.y, itemHands.PalmPosition.z)) - transform.position).magnitude < dis)
                     {
                         transform.position = new Vector3(itemHands.PalmPosition.x - 0.04f, itemHands.PalmPosition.y, itemHands.PalmPosition.z);
@@ -221,6 +224,7 @@ public class LeapGestures : MonoBehaviour
                 else if (isOpenFullHand(itemHands))
                 {
                     text5.text = "右手的手势为：张开";
+                    button.gameObject.SetActive(false);
                 }
                 //isRotation(itemHands);
             }

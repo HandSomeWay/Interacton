@@ -215,7 +215,7 @@ public class Leapgesture2 : MonoBehaviour
                                     text5.text = "右手的手势为：握拳";
                                 }
                                 else */
-                if (isGrabHand(itemHands))
+                if (isCloseFullHand(itemHands))
                 {
                     text5.text = "右手的手势为：抓取";
                     image.gameObject.SetActive(true);

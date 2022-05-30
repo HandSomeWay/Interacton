@@ -87,7 +87,7 @@ public class Painting : MonoBehaviour
 
                 if (itemHands.IsRight)
                 {
-                    if (isGrabHand(itemHands))
+                    if (isOpenFullHand(itemHands))
                     {
                         if (flag == false)
                         {
@@ -331,5 +331,10 @@ public class Painting : MonoBehaviour
     public bool isGrabHand(Hand hand)
     {
         return hand.GrabStrength > 0.1f;
+    }
+
+    public bool isOpenFullHand(Hand hand)
+    {
+        return hand.GrabStrength == 0;
     }
 }

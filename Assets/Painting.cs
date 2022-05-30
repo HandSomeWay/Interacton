@@ -2,9 +2,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Leap;
+using Leap.Unity;
 
 public class Painting : MonoBehaviour
 {
+    private LeapProvider mProvider;
+    private Frame mFrame;
+    private Hand mHand;
+    public UnityEngine.UI.Image guangbiao;//绘制光标
+    private Vector3 g;
+    public Vector2 offset;//偏移量
+
     //大小系数
     public float SCALE = 0.4f;
 
@@ -36,6 +45,7 @@ public class Painting : MonoBehaviour
     private Stack<RenderTexture> savedList = new Stack<RenderTexture>(maxCancleStep);
     void Start()
     {
+        mProvider = FindObjectOfType<LeapProvider>() as LeapProvider;
 
         //raw图片鼠标位置，宽度计算
         rawWidth = raw.rectTransform.sizeDelta.x;
@@ -56,13 +66,55 @@ public class Painting : MonoBehaviour
     Vector3 endPosition = Vector3.zero;
     void Update()
     {
+        mFrame = mProvider.CurrentFrame;
+
+        //获得手的个数
+        if (mFrame.Hands.Count > 0)
+        {
+            if (mFrame.Hands.Count == 1)
+            {
+                Gestures(mFrame, guangbiao, offset);
+            }
+        }
+
+        void Gestures(Frame mFrame, UnityEngine.UI.Image guangbiao, Vector3 offset)
+        {
+            bool flag = false;
+            //Gesture_zoom = false;
+            foreach (var itemHands in mFrame.Hands)
+            {
+
+
+                if (itemHands.IsRight)
+                {
+                    if (isGrabHand(itemHands))
+                    {
+                        if (flag == false)
+                        {
+                            //SaveTexture();
+                            flag = true;
+                        }
+                        OnMouseMove(new Vector3(guangbiao.gameObject.transform.position.x + offset.x, guangbiao.gameObject.transform.position.y + offset.y, 0), guangbiao, offset);
+                    }
+                }
+                else
+                {
+                    OnMouseUp();
+                    flag = false;
+                }
+            }
+        }
+
+
+
+
         if (Input.GetMouseButtonDown(0))
         {
             SaveTexture();
         }
         if (Input.GetMouseButton(0))
         {
-            OnMouseMove(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+            //OnMouseMove(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0),guangbiao,offset);
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -124,14 +176,14 @@ public class Painting : MonoBehaviour
         {
             Scale = 0.05f;
         }
-        return Scale * widthPower*SCALE;
+        return Scale * widthPower * SCALE;
     }
 
-    void OnMouseMove(Vector3 pos)
+    void OnMouseMove(Vector3 pos, UnityEngine.UI.Image guangbiao, Vector3 offset)
     {
         if (startPosition == Vector3.zero)
         {
-            startPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            startPosition = new Vector3(guangbiao.gameObject.transform.position.x + offset.x, guangbiao.gameObject.transform.position.y + offset.y, 0);
         }
 
         endPosition = pos;
@@ -273,5 +325,11 @@ public class Painting : MonoBehaviour
                 brushColor, brushScale);
         }
 
+    }
+
+    // 是否抓取
+    public bool isGrabHand(Hand hand)
+    {
+        return hand.GrabStrength > 0.1f;
     }
 }

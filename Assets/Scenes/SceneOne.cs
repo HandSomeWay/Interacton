@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using Leap;
@@ -15,6 +16,10 @@ public class SceneOne : MonoBehaviour
     public GameObject GameObject5;
 
     public GameObject GameObject6;
+
+    public GameObject GameObject7;
+    public GameObject GameObject8;
+    public GameObject GameObject9;
 
     public GameObject GameObject0;
 
@@ -41,6 +46,9 @@ public class SceneOne : MonoBehaviour
     private Animator animator;
 
     private Animator animator6;
+    private Animator animator7;
+    private Animator animator8;
+    private Animator animator9;
 
     private Animator animator11;
     private Animator animator12;
@@ -80,6 +88,9 @@ public class SceneOne : MonoBehaviour
         animator2 = GameObject2.transform.GetComponent<Animator>();
         animator3 = GameObject3.transform.GetComponent<Animator>();
         animator6 = GameObject6.transform.GetComponent<Animator>();
+        animator7 = GameObject7.transform.GetComponent<Animator>();
+        animator8 = GameObject8.transform.GetComponent<Animator>();
+        animator9 = GameObject9.transform.GetComponent<Animator>();
 
         animator11 = GameObject11.transform.GetComponent<Animator>();
         animator12 = GameObject12.transform.GetComponent<Animator>();
@@ -409,6 +420,14 @@ public class SceneOne : MonoBehaviour
         yield return new WaitForSeconds(11f);
         GameObject19.SetActive(false);
         animator6.SetTrigger("door");
+
+        yield return new WaitForSeconds(2f);
+        animator7.SetTrigger("move");
+        yield return new WaitForSeconds(2f);
+        animator8.SetTrigger("open");
+        animator9.SetTrigger("open");
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(1);
     }
 
 

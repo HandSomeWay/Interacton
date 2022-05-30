@@ -34,6 +34,13 @@ public class SceneOne : MonoBehaviour
     public GameObject GameObject19;
     public GameObject GameObject20;
 
+    public GameObject GameObject21;
+    public GameObject GameObject22;
+    public GameObject GameObject23;
+    public GameObject GameObject24;
+    public GameObject GameObject25;
+    public GameObject GameObject26;
+    public GameObject GameObject27;
 
     //private GameObject gameObject;
     public Text text1;
@@ -102,7 +109,6 @@ public class SceneOne : MonoBehaviour
         animator18 = GameObject18.transform.GetComponent<Animator>();
         animator19 = GameObject19.transform.GetComponent<Animator>();
         animator20 = GameObject20.transform.GetComponent<Animator>();
-
 
         n = 1;
         animator = animator1;
@@ -415,6 +421,15 @@ public class SceneOne : MonoBehaviour
         GameObject16.SetActive(false);
         GameObject17.SetActive(false);
         GameObject18.SetActive(false);
+
+        GameObject21.SetActive(false);
+        GameObject22.SetActive(false);
+        GameObject23.SetActive(false);
+        GameObject24.SetActive(false);
+        GameObject25.SetActive(false);
+        GameObject26.SetActive(false);
+        GameObject27.SetActive(false);
+
         text1.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(11f);
@@ -438,5 +453,13 @@ public class SceneOne : MonoBehaviour
         GameObject0.SetActive(true);
         GameObject20.SetActive(false);
         flag1 = false;
+        GameObject21.SetActive(true);
+        GameObject22.SetActive(true);
+        GameObject23.SetActive(true);
+        GameObject24.SetActive(true);
+        GameObject25.SetActive(true);
+        GameObject26.SetActive(true);
+        GameObject27.SetActive(true);
+        text1.text = "向前推，完成绘制";
     }
 }

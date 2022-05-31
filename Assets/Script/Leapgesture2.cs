@@ -41,6 +41,8 @@ public class Leapgesture2 : MonoBehaviour
     //主摄像机
     public Camera camera;
 
+    public GameObject game;
+
     void Start()
     {
         mProvider = FindObjectOfType<LeapProvider>() as LeapProvider;
@@ -158,6 +160,7 @@ public class Leapgesture2 : MonoBehaviour
                 if (isGrabHand(itemHands))
                 {
                     text3.text = "左手的手势为：抓取";
+                    game.SetActive(true);
                     //transform.position = new Vector3(leftPosition.x, leftPosition.y, leftPosition.z);
                     //Debug.Log("aaaaaa"+((new Vector3(leftPosition.x, leftPosition.y, leftPosition.z)) - transform.position).magnitude);
                     //Debug.Log("bbbbbb"+dis);
@@ -170,6 +173,7 @@ public class Leapgesture2 : MonoBehaviour
                 else if (isOpenFullHand(itemHands))
                 {
                     text3.text = "左手的手势为：张开";
+                    game.SetActive(false);
                 }
                 //isRotation(itemHands);
             }

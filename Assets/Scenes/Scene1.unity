@@ -4739,9 +4739,9 @@ MonoBehaviour:
   text1: {fileID: 1094576723}
   x: 000000000000000000000000
   f: 0000000000000000
-  dis: 0.6
+  dis: 1
   distance: 0
-  smallestVelocity: 0.5
+  smallestVelocity: 0.2
   deltaVelocity: 1
 --- !u!1001 &1540962473
 PrefabInstance:

@@ -3533,7 +3533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: 
-  capture: 0
+  capture: 1
   rawImage: {fileID: 1347624906}
 --- !u!114 &1347624909
 MonoBehaviour:
@@ -4814,7 +4814,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a9deaee90e9609842b443c73d8124128, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a80dd439eb4924408e376461288bfc1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

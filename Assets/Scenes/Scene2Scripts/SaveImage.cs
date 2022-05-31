@@ -22,6 +22,7 @@ public class SaveImage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        capture = false;
         path = Application.dataPath + "/Saved_Picture/";
         //path = Application.streamingAssetsPath + "/Pictures/";
     }
